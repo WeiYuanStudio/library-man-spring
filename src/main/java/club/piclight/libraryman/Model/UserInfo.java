@@ -12,11 +12,12 @@ public class UserInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "user_name")
+    @Column(name = "user_name", nullable = false)
     private String userName;
     private Integer bookCoin;
     private Date birthDay;
-    @Column(name = "mail")
+    @Column(name = "mail", nullable = false)
     private String mail;
     private String password;
+//    private String group;
 }
