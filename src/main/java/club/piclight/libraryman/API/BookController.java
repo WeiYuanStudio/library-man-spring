@@ -2,12 +2,11 @@ package club.piclight.libraryman.API;
 
 import club.piclight.libraryman.Model.BookInfo;
 import club.piclight.libraryman.Repository.BookInfoRepository;
+import club.piclight.libraryman.ViewModel.Request.Book.UserSubmitBookInfo;
 import club.piclight.libraryman.ViewModel.Response.Book.BookInfoForSearch;
+import club.piclight.libraryman.ViewModel.StatusTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +16,11 @@ public class BookController {
     @Autowired
     private BookInfoRepository bookInfoRepository;
 
+    /**
+     * 搜索书名
+     * @param title
+     * @return
+     */
     @GetMapping("/api/books")
     private List<BookInfoForSearch> searchBookByTitleLike(@RequestParam("title") String title) {
         List<BookInfo> bookInfoList = bookInfoRepository.getBookInfoByTitleLike(title);
@@ -31,5 +35,21 @@ public class BookController {
             responseInfoList.add(tempInfo);
         });
         return responseInfoList;
+    }
+
+    /**
+     * 用户推送书本信息
+     */
+    @PostMapping("/api/book")
+    private StatusTemplate userPostBookInfo(@RequestBody UserSubmitBookInfo bookInfo) {
+        BookInfo tempBook = new BookInfo();
+        tempBook.setIsbn(bookInfo.getIsbn());
+        tempBook.setTitle(bookInfo.getTitle());
+        tempBook.setAuthor(bookInfo.getAuthor());
+        tempBook.setCoverImg(bookInfo.getCoverImg());
+        tempBook.setIntro(bookInfo.getIntro());
+
+        bookInfoRepository.save(tempBook);
+        return new StatusTemplate(200, "Update book info success");
     }
 }
