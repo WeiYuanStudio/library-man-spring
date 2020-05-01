@@ -18,6 +18,7 @@ public class UserInfo {
     private Date birthDay;
     @Column(name = "mail", nullable = false)
     private String mail;
+    private String avatar;
     private String password;
-//    private String group;
+    private String userGroup;
 }
