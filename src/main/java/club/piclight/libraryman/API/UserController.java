@@ -44,11 +44,28 @@ public class UserController {
         }
     }
 
+    @GetMapping("/api/my")
+    public UserInfo userInfoGet(@RequestHeader("Authorization") String authorization) {
+        LOGGER.info("User session" + authorization);
+        ValueOperations ops = redis.opsForValue();
+        String uidS = (String) ops.get(authorization);
+        UserInfo userInfo = userInfoRepository.getUserInfoById(Long.parseLong(uidS));
+        return userInfo;
+    }
+
     @PostMapping("/api/sessions")
     public HashMap<String, String> userLogin(@RequestBody UserLogin userLogin){
         UserInfo userInfo = userInfoRepository.getUserINfoByUserName(userLogin.getUserName());
-        if (userInfo.getPassword().equals(userLogin.getPassword())) {
+        if (userInfo == null) {
+            HashMap<String, String> responseMap = new HashMap<>();
+            responseMap.put("statusCode", "401");
+            responseMap.put("message", "Login failed!");
+            return responseMap;
+        }
+
+        if (userLogin.getPassword().equals(userInfo.getPassword())) {
             String session = UUID.randomUUID().toString();
+
             ValueOperations ops = redis.opsForValue();
             ops.set(session, userInfo.getId().toString());
 
