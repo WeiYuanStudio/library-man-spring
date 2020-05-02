@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class BookInfoForSearch {
+    private Long bid;
     private String isbn;
     private String title;
     private String author;
