@@ -7,16 +7,16 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "user_info", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_name", "mail"})})
+@Table
 public class UserInfo {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    @Column(name = "user_name", nullable = false)
+    @Column(nullable = false, unique = true)
     private String userName;
     private Integer bookCoin;
-    private Date birthDay;
-    @Column(name = "mail", nullable = false)
+    private Date registerDate;
+    @Column(nullable = false, unique = true)
     private String mail;
     private String avatar;
     private String password;
