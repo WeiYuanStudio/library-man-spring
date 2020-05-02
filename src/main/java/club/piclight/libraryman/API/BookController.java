@@ -23,10 +23,11 @@ public class BookController {
      */
     @GetMapping("/api/books")
     private List<BookInfoForSearch> searchBookByTitleLike(@RequestParam("title") String title) {
-        List<BookInfo> bookInfoList = bookInfoRepository.getBookInfoByTitleLike(title);
+        List<BookInfo> bookInfoList = bookInfoRepository.getBookInfoByTitleIsLike('%' + title + '%');
         List<BookInfoForSearch> responseInfoList = new ArrayList<>();
         bookInfoList.forEach(bookInfo -> {
             BookInfoForSearch tempInfo = new BookInfoForSearch();
+            tempInfo.setBid(bookInfo.getBid());
             tempInfo.setIsbn(bookInfo.getIsbn());
             tempInfo.setTitle(bookInfo.getTitle());
             tempInfo.setAuthor(bookInfo.getAuthor());
@@ -38,7 +39,7 @@ public class BookController {
     }
 
     /**
-     * 用户推送书本信息
+     * 用户上传书本信息
      */
     @PostMapping("/api/book")
     private StatusTemplate userPostBookInfo(@RequestBody UserSubmitBookInfo bookInfo) {
@@ -52,4 +53,8 @@ public class BookController {
         bookInfoRepository.save(tempBook);
         return new StatusTemplate(200, "Update book info success");
     }
+
+    /**
+     * 用户上传图片，送至图床
+     */
 }
