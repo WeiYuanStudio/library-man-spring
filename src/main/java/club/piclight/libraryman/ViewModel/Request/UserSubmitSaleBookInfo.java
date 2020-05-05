@@ -1,17 +1,9 @@
-package club.piclight.libraryman.Model;
+package club.piclight.libraryman.ViewModel.Request;
 
 import lombok.Data;
 
-import javax.persistence.*;
-
 @Data
-@Entity
-@Table
-public class SaleBook {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long sbid; //销售书Id
-    private Long uid; //出售者uid
+public class UserSubmitSaleBookInfo {
     private Long bid; //出售书本信息bid
     private Integer price; //bookCoin售价
     private String title; //出售标题
