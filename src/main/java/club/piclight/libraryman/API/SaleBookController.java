@@ -9,12 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -54,5 +51,10 @@ public class SaleBookController {
         } catch (Exception e) {
             return new StatusTemplate(500, "Submit sale book info failed");
         }
+    }
+
+    @GetMapping("/api/salebook")
+    public List<SaleBook> getSaleBook(@RequestParam("bid")Long bid) {
+        return saleBookRepository.getBookInfoByBid(bid);
     }
 }

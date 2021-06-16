@@ -38,6 +38,11 @@ public class BookController {
         return responseInfoList;
     }
 
+    @GetMapping("/api/bookinfo")
+    private BookInfo getBookInfo(@RequestParam("bid")Long bid) {
+        return bookInfoRepository.getBookInfoByBid(bid);
+    }
+
     /**
      * 用户上传书本信息
      */
